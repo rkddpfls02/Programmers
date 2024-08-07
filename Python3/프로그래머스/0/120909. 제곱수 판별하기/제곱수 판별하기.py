@@ -1,5 +1,3 @@
+# is_integer() 10.0 은 True 10.5는 False
 def solution(n):
-    for i in range(2, n//2):
-        if i*i == n:
-            return 1
-    return 2
+    return 1 if (n**0.5).is_integer() else 2
