@@ -9,7 +9,7 @@ def solution(polynomial):
         elif s == 'x':
             xsum +=1
         else:
-            xsum += int(s[:len(s)-1])
+            xsum += int(s[:-1])
     
     if nsum !=0 and xsum !=0:
         return ('x'if xsum==1 else str(xsum)+'x')+' + '+str(nsum)
