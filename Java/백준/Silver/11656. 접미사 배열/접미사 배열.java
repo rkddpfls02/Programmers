@@ -1,13 +1,12 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main  {
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bf= new BufferedReader(new InputStreamReader(System.in));
-        String s= bf.readLine();
+        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        String s= br.readLine();
         String[] suffix= new String[s.length()];
         for (int i=0; i<s.length(); i++){
             suffix[i]= s.substring(i);
@@ -15,7 +14,8 @@ public class Main  {
         Arrays.sort(suffix);
 
         for (int i=0; i<suffix.length; i++){
-            System.out.println(suffix[i]);
+            bw.write(suffix[i]+'\n');
         }
+        bw.flush();
     }
 }
