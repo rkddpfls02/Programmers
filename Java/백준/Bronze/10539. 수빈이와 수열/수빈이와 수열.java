@@ -10,9 +10,8 @@ public class Main  {
         for (int i= 0; i< n; i++){
             a[i] = Integer.parseInt(s[i]);
         }
-        int sum= a[0];
-        System.out.print(sum +" ");
-        for (int i= 1; i< n; i++){
+        int sum=0;
+        for (int i= 0; i< n; i++){
             a[i]= a[i]* (i+1) - sum;
             sum += a[i];
             System.out.print(a[i]+" ");
