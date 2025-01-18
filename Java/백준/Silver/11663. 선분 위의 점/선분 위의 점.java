@@ -1,69 +1,69 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int[] point;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st=new StringTokenizer(br.readLine());
+    public void solution() throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st= new StringTokenizer(br.readLine());
 
-        int N=Integer.parseInt(st.nextToken());
-        int M=Integer.parseInt(st.nextToken());
+        int n= Integer.parseInt(st.nextToken());
+        int m= Integer.parseInt(st.nextToken());
 
-        point=new int[N];
+        st= new StringTokenizer(br.readLine());
 
-        st=new StringTokenizer(br.readLine());
-        for(int i=0;i<N;i++){
-            point[i]=Integer.parseInt(st.nextToken());
+        List<Long> dots= new ArrayList<>();
+        for (int i=0; i<n; i++) dots.add(Long.parseLong(st.nextToken()));
+
+        Collections.sort(dots);
+
+        for (int i=0; i<m; i++){
+            st= new StringTokenizer(br.readLine());
+            int start_index= lower(dots, Long.parseLong(st.nextToken()));
+            int end_index= upper(dots, Long.parseLong(st.nextToken()));
+            bw.write(Long.toString(end_index - start_index)+"\n");
         }
-
-        Arrays.sort(point);
-
-        for(int i=0;i<M;i++){
-            st=new StringTokenizer(br.readLine());
-            int start=Integer.parseInt(st.nextToken());
-            int end=Integer.parseInt(st.nextToken());
-
-            int start_idx=binarySearch(start,0);
-            int end_idx=binarySearch(end,1);
-
-            System.out.println(end_idx-start_idx);
-        }
+        bw.flush();
+        bw.close();
+        br.close();
     }
 
-    private static int binarySearch(int start, int check) {
+    private int lower(List<Long> dots, long l) {
+        int mid;
         int left=0;
-        int right= point.length-1;
-
-        if(check==0){
-            while(left<=right){
-                int mid=(left+right)/2;
-                if (point[mid] < start) {
-                    left = mid+1;
-                } else {
-                    right = mid-1;
-                }
+        int right= dots.size()-1;
+        while (left<= right) {
+            mid= (left+right)/2;
+            if(dots.get(mid)>= l){
+                right= mid-1;
             }
-
-            return left;
-        }
-        else{
-            while(left<=right){
-                int mid=(left+right)/2;
-                if(point[mid]>start){
-                    right=mid-1;
-                }
-                else{
-                    left=mid+1;
-                }
+            else {
+                left= mid+1;
             }
-
-            return right+1;
         }
+        return left;
+    }
 
+    private int upper(List<Long> dots, long l) {
+        int mid;
+        int left=0;
+        int right= dots.size()-1;
+
+        while (left<= right) {
+            mid= (left+ right)/2;
+            if(dots.get(mid)<= l) {
+                left= mid+1;
+            }
+            else {
+                right= mid-1;
+            }
+        }
+        return left;
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        new Main().solution();
     }
 }
