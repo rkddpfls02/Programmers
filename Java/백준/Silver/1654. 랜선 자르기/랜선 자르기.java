@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -6,31 +7,33 @@ public class Main {
     public void solution() throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(System.out));
-        String[] s;
-        s= br.readLine().split(" ");
-        int k= Integer.parseInt(s[0]);
-        List<Long> len= new ArrayList<>();
-        int n= Integer.parseInt(s[1]);
+        StringTokenizer st= new StringTokenizer(br.readLine());
 
-        for (int i=0; i<k; i++) len.add(Long.parseLong(br.readLine()));
-        Collections.sort(len);
+        int k= Integer.parseInt(st.nextToken());
+        int n= Integer.parseInt(st.nextToken());
 
-        long max= len.get(k-1);
-        long min=1;
-        long ans=0;
+        long[] len= new long[k];
+
+        for (int i=0; i<k; i++) len[i]= Long.parseLong(br.readLine());
+
+        Arrays.sort(len);
+
+        long min= 1; 
+        long max= len[k-1];
 
         while(min<= max){
-            long mid= (min + max)/2;
-            long sum= 0;
-            for(Long num : len) sum += num/mid;
-
-            if (sum<n) max= mid-1;
-            else {
-                ans= mid;
-                min= mid+1;}
+            long mid= (min+max)/2;
+            long sum=0;
+            for(long l: len) sum += l/mid;
+            
+            // 길이 늘려야할 경우
+            if (sum >= n) min= mid+1;
+            else max= mid-1;
         }
 
-        bw.write(Long.toString(ans));
+
+
+        bw.write(Long.toString(min-1));
         bw.flush();
         bw.close();
         br.close();
