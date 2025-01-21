@@ -3,50 +3,53 @@ import java.util.*;
 
 public class Main {
 
-    public void solution() throws IOException {
+    public void solution() throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st= new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken()); // 수빈이의 위치
-        int m = Integer.parseInt(st.nextToken()); // 동생의 위치
+        int n= Integer.parseInt(st.nextToken()); // 수빈이
+        int m= Integer.parseInt(st.nextToken()); // 동생
 
-        // If Su-bin is already at the same position as her sister
-        if (n == m) {
+        if (n==m) {
             System.out.println(0);
             return;
         }
 
-        // Maximum possible position to consider (based on problem constraints)
-        int max = 100000;
+        int max= 100000;
 
-        // BFS setup
-        boolean[] visited = new boolean[max + 1];
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {n, 0}); // {current position, time taken}
-        visited[n] = true;
+        boolean[] visited= new boolean[max+1]; //0부터 max까지
+        Arrays.fill(visited, false);
 
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int position = current[0];
-            int time = current[1];
+        Queue<int[]> q= new LinkedList<>();
+        int[] nexts= new int[3];
+        q.add(new int[]{n,0});
 
-            // Check all possible moves
-            int[] nextPositions = {position - 1, position + 1, position * 2};
-            for (int next : nextPositions) {
-                // If we reach the target
-                if (next == m) {
-                    System.out.println(time + 1);
+        while(!q.isEmpty()){
+            int[] now= q.remove();
+            int num= now[0];
+            int time= now[1];
+
+            nexts[0]= num-1;
+            nexts[1]= num+1;
+            nexts[2]= num*2;
+
+            for(int next: nexts){
+                if(next== m){
+                    System.out.println(time+1);
                     return;
                 }
 
-                // Add valid and unvisited positions to the queue
-                if (next >= 0 && next <= max && !visited[next]) {
-                    visited[next] = true;
-                    queue.add(new int[] {next, time + 1});
+                if (next>=0 && next<= max && !visited[next]) {
+                    q.add(new int[]{next, time+1});
+                    visited[next]= true;
                 }
+                // 조건 중 앞에서 하나라도 false면 뒤에 평가 안함
+                // 따라서 visited 조건 체크가 마지막 조건으로 와야함
             }
+
         }
     }
+
 
     public static void main(String[] args) throws IOException {
         new Main().solution();
