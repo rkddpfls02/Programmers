@@ -4,32 +4,25 @@ import java.util.Set;
 
 public class Main {
 
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        // 어짜피 버퍼로 읽어서 split된 개수만큼 집합에 넣을거라 첫줄 버림
-        br.readLine();
-        String[] s ;
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        Set<Integer> a= new HashSet<>();
-        Set<Integer> b= new HashSet<>();
-
+        String[] s;
         s= br.readLine().split(" ");
-        for(String tmp: s) a.add(Integer.parseInt(tmp));
+        int n= Integer.parseInt(s[0]);
+        int m= Integer.parseInt(s[1]);
 
-        s= br.readLine().split(" ");
-        for(String tmp: s) b.add(Integer.parseInt(tmp));
-        
-        // Set 복제 이렇게
-        Set<Integer> c = new HashSet<>(a);
-        //a-b
-        a.removeAll(b);
-        // b-a
-        b.removeAll(c);
-        //두 차집합의 합집합
-        a.addAll(b);
+        Set<Integer> set= new HashSet<>();
+        for(String num: br.readLine().split(" ")) set.add(Integer.parseInt(num));
+        for(String num: br.readLine().split(" ")) set.add(Integer.parseInt(num));
 
-        System.out.println(a.size());
+
+        bw.write(Integer.toString(2*set.size()-(n+m)));
+        bw.flush();
+        bw.close();
+        br.close();
+
     }
 
-}
+    }
