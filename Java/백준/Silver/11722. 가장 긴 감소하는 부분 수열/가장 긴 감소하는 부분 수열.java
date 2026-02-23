@@ -27,9 +27,4 @@ public class Main {
 
     }
 
-    private static int hasMore(int[] arr, int i) {
-        for(int j= i+1; j< arr.length; j++) if(arr[j]< arr[i]) return j;
-        return -1;
-    }
-
 }
