@@ -22,7 +22,7 @@ class Solution {
         
         // 방문한 던전 가능 여부 
         visited[now] = true;
-        if(dungeons[now][0]<= k && k >= dungeons[now][1]) {
+        if(dungeons[now][0]<= k) {
             cnt ++;
             k-= dungeons[now][1];
             max= Math.max(max, cnt);
