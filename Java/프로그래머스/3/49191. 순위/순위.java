@@ -26,8 +26,10 @@ class Solution {
                     
                     // i가 k한테 이기고 k가 j를 이겨야함
                     // k가 i한테 지고 j가 k 한테 져야함 
-                    if(arr[i][k]== 1 && arr[k][j]== 1) arr[i][j]= 1;
-                    if(arr[k][i]== -1 && arr[j][k]== -1) arr[j][i]= -1;
+                    if(arr[i][k]== 1 && arr[k][j]== 1) {
+                        arr[i][j]= 1;
+                        arr[j][i]= -1;
+                    }
                 }
             }
         }
@@ -50,4 +52,4 @@ class Solution {
         
         
         
-    }
+}
