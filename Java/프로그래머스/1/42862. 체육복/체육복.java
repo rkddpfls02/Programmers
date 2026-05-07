@@ -14,32 +14,33 @@ class Solution {
             students[idx-1] ++;
         }
         
-        for (int i= n-1; i >=0; i--) {
-            
+        if(students[n-1]==0 && students[n-2] == 2) {
+            students[n-1] = 1;
+            students[n-2] =1;
+        }                
+
+        if(students[0]==0 && students[1] == 2){
+                students[0] =1;
+                students[1] =1;
+            }
+
+
+        for (int i= n-2; i> 0; i--) {
+
             if(students[i]==0) {
-                
-                if(i == n-1 && students[i-1] == 2) {
-                    students[i] = 1;
-                    students[i-1] =1;
-                }
-                
-                else if(i == 0 && students[i+1] == 2){
-                    students[i] =1;
-                    students[i+1] =1;
-                }
-                
-                else if (students[i+1] == 2){
+
+                if (students[i+1] == 2){
                     students[i]= 1;
                     students[i+1]= 1;
                 }
-                
+
                 else if (students[i-1] == 2){
                     students[i]= 1;
                     students[i-1]= 1;
                 }
-                
+
             } 
-            
+
         }
         
         int answer = 0;
