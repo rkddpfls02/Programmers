@@ -1,38 +1,33 @@
 import java.util.*;
-
 class Solution {
     
+    static String[][] tickets;
+    static List<String> routes= new ArrayList<>();
     static boolean[] used;
-    static List<String> tmp; 
-    String[][] tickets;
     
     public String[] solution(String[][] tickets) {
-        used= new boolean [tickets.length];
-        Arrays.fill(used, false);
+        Arrays.sort(tickets, (s1, s2) -> s1[1].compareTo(s2[1]));
         
+        used = new boolean[tickets.length];
         this.tickets= tickets;
-        Arrays.sort(tickets, (a1,a2)-> {return a1[1].compareTo(a2[1]);});
+        dfs("ICN","ICN",0);
         
-        tmp= new ArrayList<>();
-        dfs("ICN", "ICN", 0);
-        
-        return tmp.get(0).split(" ");
+        return routes.get(0).split(" ");
     }
     
-    
-    public void dfs(String now, String route, int cnt){
-        if(cnt == tickets.length) {
-            tmp.add(route);
+    public void dfs(String dep, String route, int depth){
+        
+        if(depth>= tickets.length) {
+            routes.add(route);
             return;
         }
         
-        for(int i=0; i< tickets.length; i++) {
-            if(!used[i] && tickets[i][0].equals(now)) {
-                used[i]= true; 
-                dfs(tickets[i][1], route +" "+ tickets[i][1], cnt+1);
-                used[i]= false; // 이 순서로 티켓 쓰는게 잘못될 수도 있어서 
-            }
+        for(int i=0; i< tickets.length; i++){
+            if(!used[i] && tickets[i][0].equals(dep)){
+                used[i]= true;
+                dfs(tickets[i][1], route+" " +tickets[i][1],depth+1);
+                used[i]= false;
+            } 
         }
-        
     }
 }
