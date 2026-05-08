@@ -2,6 +2,7 @@ import java.util.*;
 
 class Solution {
     
+    
     static int now=0;
     static int total=0;
     static int cnt=0;
