@@ -1,0 +1,62 @@
+import java.io.*;
+
+class Solution
+{
+    public static void main(String args[]) throws Exception
+    {
+
+        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int T= Integer.parseInt(br.readLine());
+
+        for(int test_case = 1; test_case <= T; test_case++)
+        {
+            int max= 0;
+            String [] s= br.readLine().split(" ");
+            int N= Integer.parseInt(s[0]);
+            int M= Integer.parseInt(s[1]);
+
+            int [][] arr= new int [N][N];
+
+            for(int i=0; i< N; i++){
+                s= br.readLine().split(" ");
+                for(int j=0; j< N; j++)    arr[i][j]= Integer.parseInt(s[j]);
+            }
+
+            for(int i=0; i< N; i++) {
+                for(int j=0; j< N; j++) {
+
+                    int updown= arr[i][j];
+                    int diolog= arr[i][j];
+                    int cnt=1;
+                    while(cnt < M){
+                        // 위아래, 좌우, 오른쪽대각선, 왼쪽대각선
+                        int[] x= {i+cnt, i-cnt, i, i, i+cnt, i-cnt, i+cnt, i-cnt};
+                        int[] y= {j, j, j+cnt, j-cnt, j+cnt, j-cnt, j-cnt, j+cnt};
+
+                        for(int k=0; k< 4; k++) {
+                            if(x[k]>=0 && x[k]<N &&  y[k]>=0 && y[k]<N) updown += arr[x[k]][y[k]];
+                        }
+
+                        for(int k=4; k< x.length; k++) {
+                            if(x[k]>=0 && x[k]<N &&  y[k]>=0 && y[k]<N) diolog += arr[x[k]][y[k]];
+                        }
+
+                        cnt ++;
+                    }
+                    max= Math.max(max, Math.max(updown, diolog));
+                }
+            }
+
+            bw.write("#"+test_case+" "+ max);
+            bw.newLine();
+
+        }
+
+        bw.flush();
+
+    }
+
+
+}
