@@ -2,17 +2,26 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] citations) {
-        int answer=0;
-        int n= citations.length;
-        int idx = n; // h 인용 이하 몇개인지
+        
         Arrays.sort(citations);
-        for(int h= n; h >=0; h--){ 
+        int n= citations.length;
+        
+        
+        
+        
+        for(int h= citations[n-1]; h>=0; h--){
+            int cnt=0; // h이상 몇개인지
             
-           for (int j= idx-1; j>=0; j--){
-               if(citations[j]>= h) idx--;
-               if(idx+1<= h && n-idx >= h) return h;
-           }
+            for(int i= n-1; i>= 0; i--){
+                
+                if(citations[i] >= h) cnt++;
+                else break;
+                
+            }
+            if(cnt >= h && n-cnt <= h) return h;
+            
         }
-        return answer;
+        
+        return citations[0];
     }
 }
