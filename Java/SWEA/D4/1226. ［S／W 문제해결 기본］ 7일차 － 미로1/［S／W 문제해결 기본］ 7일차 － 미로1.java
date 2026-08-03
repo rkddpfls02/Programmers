@@ -11,7 +11,7 @@ class Solution
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int[] dx= {0, 0, -1, 1};
+        int[] dx= {0, 0, -1, 1}; 
         int[] dy= {1, -1, 0, 0};
 
         for(int test_case = 1; test_case <= 10; test_case++) {
