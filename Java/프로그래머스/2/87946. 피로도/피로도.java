@@ -1,35 +1,31 @@
-import java.util.*;
 class Solution {
-    
-    static boolean [] visited;
-    static int max=0;
+    static int answer;
     static int[][] dungeons;
+    static boolean[] visited;
     
-    public int solution(int k, int[][] dungeons) {
-        visited= new boolean[dungeons.length];
-        Arrays.fill(visited, false);
-        this.dungeons= dungeons;
-    
-        dfs(0, k);
+    static void play(int cnt, int now){
+        answer= Math.max(answer, cnt);
+        if(cnt == dungeons.length) return;
+        if(now <=0) return;
         
-        return max;
-    }
-    
-    public void dfs(int cnt, int k){
-        
-        for(int i=0; i< dungeons.length; i++) { // i 번째에서 시작한 탐험
-            max= Math.max(max, cnt);
-
-            if(!visited[i] && dungeons[i][0]<= k) {
-                visited[i] = true;
-                
-                // 방문안하고 k가 조건을 만족했기에 
-                //다음 던전 다시 0부터 되는거 찾기 k의 상태가 바꼈으니까
-                dfs(cnt+1, k-dungeons[i][1]); 
-                visited[i] = false; // 백트래킹
+        for(int i=0; i< dungeons.length; i++){
+            if(!visited[i]){
+                if(dungeons[i][0]<= now){
+                    visited[i]= true;
+                    
+                    play(cnt+1, now- dungeons[i][1]);
+                    visited[i]= false;
+                }
             }
             
         }
+    }
+    
+    public int solution(int k, int[][] dungeons) {
+        visited= new boolean[dungeons.length];
+        this.dungeons= dungeons;
+        play(0, k);
         
+        return answer;
     }
 }
