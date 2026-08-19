@@ -1,45 +1,55 @@
-import java.util.*;
 class Solution {
-    public int solution(String begin, String target, String[] words) {
-        
-        int n= words.length;
-        int [] cnt= new int[n+1];
-
-        
-        Queue<Integer> q= new LinkedList<>();
-        for(int i=0; i< words.length; i++) {
-            if(wordMatch(begin, words[i])) {
-                q.offer(i);
-                cnt[i]++;
-            }
-        }
-        
-        
-        while(!q.isEmpty()) {
-            int now= q.poll();
-            if(words[now].equals(target)) return cnt[now];
-            
-            
-            for(int i=0; i< words.length; i++){
-                if(cnt[i]==0 && wordMatch(words[now], words[i])) {
-                    cnt[i]= cnt[now]+1;
-                    q.offer(i);
-                }
-            }
-        }
-        
-        return 0;
-    }
+    private static String target;
+    private static String[] words;
+    private static int min;
+    private static boolean [] visited;
     
-    
-    public boolean wordMatch (String w1, String w2){
-        if (w1.length() != w2.length()) return false;
+    private static boolean changeChar(String before, String after){
+        
+        if(before.length() != after.length()) return false;
         int cnt=0;
-        for(int i=0; i< w1.length(); i++) {
-            if(w1.charAt(i) != w2.charAt(i)) cnt++;
-            if(cnt>1) return false;
+        for(int i=0; i< before.length(); i++) {
+            if(before.charAt(i)!= after.charAt(i)) {
+                if(cnt <1) cnt ++;
+                else return false;
+            }
         }
         
         return true;
     }
+    
+    private static void searchWords(int cnt, String now){
+                
+         if(now.equals(target)) {
+            System.out.print(now);
+            min= Math.min(cnt, min);
+            return;
+        }
+        
+        for(int i=0; i< words.length; i++) {
+            if(!visited[i] && changeChar(now, words[i])) {
+                visited[i]= true;
+                searchWords(cnt+1, words[i]);
+                visited[i]= false;
+            }
+        }
+        
+    }
+    
+    public int solution(String begin, String target, String[] words) {
+        this.words= words;
+        this.target= target;
+        min= Integer.MAX_VALUE;
+        visited= new boolean[words.length];
+        
+        boolean isTarget= false;
+        for(String word: words) if(target.equals(word)) isTarget= true;
+        
+        if(!isTarget) return 0;
+        
+        searchWords(0, begin);
+        
+        return min;
+    }
 }
+
