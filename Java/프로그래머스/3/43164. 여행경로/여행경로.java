@@ -1,33 +1,40 @@
 import java.util.*;
+
 class Solution {
+    private static String[][] tickets;
+    private static boolean[] visited;
+    private static List<String> answer= new ArrayList<>();
     
-    static String[][] tickets;
-    static List<String> routes= new ArrayList<>();
-    static boolean[] used;
-    
-    public String[] solution(String[][] tickets) {
-        Arrays.sort(tickets, (s1, s2) -> s1[1].compareTo(s2[1]));
-        
-        used = new boolean[tickets.length];
-        this.tickets= tickets;
-        dfs("ICN","ICN",0);
-        
-        return routes.get(0).split(" ");
+    private static void travel(int depth, String[] now, String path){
+            if(depth == tickets.length-1){
+                answer.add(path+" "+ now[1]); // 갈 수 있는 경로 여러개 모음
+                return;
+            }
+            for(int i=0; i< tickets.length; i++){
+                
+                if(!visited[i] && now[1].equals(tickets[i][0])){ // 이 티켓 안썼고 출발지가 지금 도착지라면
+                    visited[i]= true;
+                    travel(depth+1, tickets[i], path+" "+tickets[i][0]);
+                    visited[i]= false;
+                }
+            }
     }
     
-    public void dfs(String dep, String route, int depth){
+    public String[] solution(String[][] tickets) {
         
-        if(depth>= tickets.length) {
-            routes.add(route);
-            return;
+        this.tickets= tickets;
+        
+        int idx=0;
+        for(int i=0; i< tickets.length; i++) {
+            if(tickets[i][0].equals("ICN")) idx= i;
         }
         
-        for(int i=0; i< tickets.length; i++){
-            if(!used[i] && tickets[i][0].equals(dep)){
-                used[i]= true;
-                dfs(tickets[i][1], route+" " +tickets[i][1],depth+1);
-                used[i]= false;
-            } 
-        }
+        visited= new boolean[tickets.length];
+        
+        visited[idx]= true;
+        travel(0, tickets[idx] ,tickets[idx][0]);
+        Collections.sort(answer);
+        
+        return answer.get(0).split(" ");
     }
 }
