@@ -1,30 +1,29 @@
 import java.util.*;
-
 class Solution {
     public int solution(int[][] routes) {
         
         Arrays.sort(routes, (r1, r2)-> r1[0]- r2[0]);
-        int cnt = 0;
-        int start= Integer.MIN_VALUE;
-        int end= Integer.MIN_VALUE;
+        
+        // 초기엔 처음 구간이 현재 원소 겹치는 구간
+        int [] overlap= routes[0];
+        int cnt= 0;
         
         for(int[] route: routes){
+            int start= route[0]; // 다음 시작
+            int end= route[1]; // 다음 끝
             
-            // 다음의 시작이 전의 끝보다 크면 +1하고 새로운 구간
-            if(route[0]> end) {
-                start= route[0];
-                end= route[1];
-                cnt ++;
-                continue;
+            //  경로가 겹치면 overlap 갱신
+            if(start<= overlap[1]) {
+                overlap[0]= start;
+                if(end<= overlap[1]) overlap[1]= end;
+            } else { // 경로가 겹치지 않으면 하나씩 증가
+                cnt++;
+                overlap= route;
             }
             
-            // 다음의 시작이 시작보다 크거나 같으면 겹치는 부분의 새로운 시작
-            if(route[0]>= start) start= route[0];            
-            if(route[1]<= end) end= route[1];
             
         }
         
-        
-        return cnt;
+        return cnt+1;
     }
 }
