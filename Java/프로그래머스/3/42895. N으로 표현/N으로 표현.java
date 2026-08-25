@@ -4,7 +4,6 @@ class Solution {
     public int solution(int N, int number) {
         Set<Integer>[] dp= new HashSet[9];
         
-        if(number== N) return 1;
         
         int maxNum=0;
         for(int i=1; i< dp.length; i++){
