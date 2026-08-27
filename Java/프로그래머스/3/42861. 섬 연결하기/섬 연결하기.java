@@ -1,65 +1,54 @@
 import java.util.*;
 class Solution {
-    static class Bridge implements Comparable<Bridge>{
+    private static boolean[] visited;
+    static class Node {
+        // 도착 정점
+        int vertex;
         
-        int start;
-        int end;
+        // 간선비용
         int cost;
-        
-        Bridge(int start, int end, int cost){
-            this.start= start;
-            this.end= end;
-            this.cost= cost;
+
+        Node(int vertex, int cost) {
+            this.vertex = vertex;
+            this.cost = cost;
         }
-        
-        @Override
-        public int compareTo(Bridge o){
-            return this.cost- o.cost;
-        }
-        
     }
-    
-    static int find (int x){
-        if(parent[x]==x) return x;
-        return parent[x]= find(parent[x]);
-    }
-    
-    static void union(int a, int b){
-        a= find(a);
-        b= find(b); // 각자의 최상위부모
-        
-        if(a != b) parent[a]= b; // 한쪽에 흡수
-    }
-        
-    static int [] parent;
     
     public int solution(int n, int[][] costs) {
+        int answer = 0;
+        visited= new boolean[n];
+        List<Node>[] adj= new List[n];
         
-        parent= new int [n];
-        Queue<Bridge> bridges= new PriorityQueue<>();
+        for(int i=0; i< n; i++) adj[i]= new ArrayList<>();
         
-        for(int i=0; i< n; i++){
-            parent[i]= i; // 부모 자기자신
+        for(int[] cost: costs){
+            adj[cost[0]].add(new Node(cost[1],cost[2]));
+            adj[cost[1]].add(new Node(cost[0],cost[2]));
         }
         
-        for(int[] cost: costs) {
-            bridges.offer(new Bridge(cost[0], cost[1], cost[2]));
-        }
+        visited[0]= true;
+        Queue<Node> q= new PriorityQueue<>((n1, n2)-> n1.cost-n2.cost);
         
-        int cnt=0;
-        int total=0;
+        // 첫 시작 노드의 인접노드 다 넣음
+        for(Node node: adj[0]) q.offer(node);
         
-        while(cnt< n-1 && !bridges.isEmpty()){
-            Bridge min= bridges.poll();
-            int a= min.start;
-            int b= min.end;
-            if(find(a)!= find(b)){
-                total += min.cost;
-                union(a,b);
-                cnt ++;
+        // q가 빌때까지 수행 왜냐면 최소값만 answer에 추가되고 더 큰값음 무시됨
+        while(!q.isEmpty()) {
+            Node now= q.poll();
+            
+            // 이미 방문했으면 무시
+            // cost가 큰 노드가 먼저 들어와서 계속 남아있어서 중단 안되는 상황 방지
+            if(visited[now.vertex]) continue;
+            
+            answer += now.cost;
+            visited[now.vertex]= true;
+            
+            for(Node next: adj[now.vertex]) {
+                // 방문안한 노드만 큐에 넣음
+                if(!visited[next.vertex]) q.offer(next);
             }
         }
         
-        return total;
+        return answer;
     }
 }
