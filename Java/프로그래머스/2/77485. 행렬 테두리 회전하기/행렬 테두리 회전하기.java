@@ -1,11 +1,5 @@
 class Solution {
     
-    public static void changeNums(int x1, int y1, int x2, int y2){
-        int tmp= nums[x1][y1];
-        nums[x1][y1]= nums[x2][y2];
-        nums[x2][y2]= tmp;
-    }
-    
     public static int[][] nums;
     
     public int[] solution(int rows, int columns, int[][] queries) {
