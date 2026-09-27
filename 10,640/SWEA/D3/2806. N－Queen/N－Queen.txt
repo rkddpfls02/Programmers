@@ -1,0 +1,73 @@
+import java.io.*;
+
+public class Solution {
+    private static int cnt;
+    private static int[][] map;
+    private static boolean[] col;
+
+    private static void dfs(int i){
+        if (i>= map.length){
+            cnt ++;
+            return;
+        }
+
+        for (int j = 0; j < map.length; j++) {
+            if (!col[j] && checkDia(i,j)){
+                col[j]= true;
+                map[i][j]= 1;
+                dfs(i+1);
+                map[i][j]=0;
+                col[j]= false;
+            }
+        }
+
+    }
+
+    private static boolean checkDia(int i, int j) {
+        int[] dx= {-1,-1,1,1};
+        int[] dy= {-1,1,-1,1};
+
+        for (int k = 0; k < dx.length; k++) {
+            int nx= i+ dx[k];
+            int ny= j+ dy[k];
+            while(inside(nx, ny)){
+                if (map[nx][ny]==1) return false;
+                nx+= dx[k];
+                ny+= dy[k];
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean inside(int x,int y){
+        return x>=0 && y>=0 && x< map.length && y< map.length;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int T= Integer.parseInt(br.readLine());
+        StringBuilder sb= new StringBuilder();
+
+        for(int test_case = 1; test_case <= T; test_case++) {
+            int N= Integer.parseInt(br.readLine());
+            cnt=0;
+            map= new int[N][N];
+            col= new boolean[N];
+
+            dfs(0);
+
+            sb.append("#").append(test_case).append(" ").append(cnt).append("\n");
+
+        } // end of testcases
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close(); 
+
+    } // end of main
+}// end of class
+
