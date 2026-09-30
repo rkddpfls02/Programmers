@@ -12,6 +12,9 @@ public class Solution {
         return x>=0 && y>=0 && x< cafes.length && y< cafes.length;
     }
     private static void makeSquare(int x, int y, int w, int h){
+        // answer보다 길이가 작으면 검사 안함
+        if (answer >= 2*w+2*h-4) return;
+        
         int[] desserts= new int[2*w+2*h-4];
         int idx=0;
         int nx= x;
