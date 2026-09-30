@@ -89,8 +89,8 @@ public class Solution {
                 }
             }
 
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
+            for (int i = 1; i < N; i++) {
+                for (int j = 0; j <= N-i; j++) {
                     for (int w = 2; w < N; w++) {
                         for (int h = 2; h < N ; h++) makeSquare(i,j,w,h);
                     }
