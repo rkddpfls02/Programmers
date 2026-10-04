@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class  Solution {
+public class Solution {
     private static int[] cards;
     private static boolean[] complete;
 
@@ -30,11 +30,13 @@ public class  Solution {
             if (cards[i]>=3) cards[i] -=3;
 
             if(cards[i]< 3 && i< cards.length -2){
-                if(cards[i+1] == cards[i+2] && cards[i] == cards[i+1]) {
-                    cards[i]= 0;
-                    cards[i+1]= 0;
-                    cards[i+2]= 0;
+
+                while (cards[i] !=0 && cards[i+1] !=0 && cards[i+2] !=0){
+                    cards[i]--;
+                    cards[i+1]--;
+                    cards[i+2]--;
                 }
+
             }
 
         }
