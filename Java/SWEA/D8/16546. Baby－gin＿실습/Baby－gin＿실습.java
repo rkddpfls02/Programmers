@@ -2,7 +2,6 @@ import java.io.*;
 
 public class Solution {
     private static int[] cards;
-    private static boolean[] complete;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
@@ -29,7 +28,7 @@ public class Solution {
             if (cards[i]== 6) return true;
             if (cards[i]>=3) cards[i] -=3;
 
-            if(cards[i]< 3 && i< cards.length -2){
+            if(i< cards.length -2){
 
                 while (cards[i] !=0 && cards[i+1] !=0 && cards[i+2] !=0){
                     cards[i]--;
