@@ -1,0 +1,67 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int T= Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        StringBuilder sb= new StringBuilder();
+
+        for (int test_case = 1; test_case <= T; test_case++) {
+            long answer= 0;
+            st= new StringTokenizer(br.readLine());
+            int V= Integer.parseInt(st.nextToken());
+            int E= Integer.parseInt(st.nextToken());
+
+            parent= new int[V+1];
+            PriorityQueue<int[]> pq= new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
+            for (int i = 1; i <= V; i++) parent[i]=i;
+
+            for (int i = 0; i < E; i++) {
+                st= new StringTokenizer(br.readLine());
+                int[] edge= new int[3];
+                edge[0]= Integer.parseInt(st.nextToken());
+                edge[1]= Integer.parseInt(st.nextToken());
+                edge[2]= Integer.parseInt(st.nextToken());
+                pq.offer(edge);
+            }
+            // 선택한 간선의 개수
+            int cnt= 0;
+            while (cnt < V-1 && !pq.isEmpty()){
+                int[] edge= pq.poll();
+                if (union(edge[0], edge[1])) {
+                    cnt++;
+                    answer+= edge[2];
+                }
+            }
+
+            sb.append("#").append(test_case).append(" ").append(answer).append("\n");
+        }
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+
+    } //end of main
+
+    private static int[] parent;
+    private static boolean union(int v1, int v2) {
+        int p1= find(v1);
+        int p2= find(v2);
+
+        if (p1== p2) return false;
+
+        parent[p1]= p2;
+        return true;
+    }
+
+    private static int find(int v) {
+        if (parent[v]== v) return v;
+        return parent[v]= find(parent[v]);
+    }
+
+} // end of class
