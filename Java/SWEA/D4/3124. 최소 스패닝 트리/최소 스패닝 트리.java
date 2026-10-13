@@ -22,7 +22,7 @@ public class Solution {
             parent= new int[V+1];
             rank= new int[V+1];
 
-            PriorityQueue<int[]> pq= new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
+            List<int[]> list= new ArrayList<>();
 
             for (int i = 1; i <= V; i++) parent[i]=i;
 
@@ -32,16 +32,22 @@ public class Solution {
                 edge[0]= Integer.parseInt(st.nextToken());
                 edge[1]= Integer.parseInt(st.nextToken());
                 edge[2]= Integer.parseInt(st.nextToken());
-                pq.offer(edge);
+                list.add(edge);
             }
+
+            list.sort(Comparator.comparingInt(o -> o[2]));
+            
             // 선택한 간선의 개수
             int cnt= 0;
-            while (cnt < V-1 && !pq.isEmpty()){
-                int[] edge= pq.poll();
+            int idx=0;
+            while (cnt < V-1 && idx< E){
+                int[] edge= list.get(idx);
                 if (union(edge[0], edge[1])) {
                     cnt++;
                     answer+= edge[2];
                 }
+                
+                idx++;
             }
 
             sb.append("#").append(test_case).append(" ").append(answer).append("\n");
