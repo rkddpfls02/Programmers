@@ -36,7 +36,7 @@ public class Solution {
             }
 
             list.sort(Comparator.comparingInt(o -> o[2]));
-            
+
             // 선택한 간선의 개수
             int cnt= 0;
             int idx=0;
@@ -46,7 +46,7 @@ public class Solution {
                     cnt++;
                     answer+= edge[2];
                 }
-                
+
                 idx++;
             }
 
