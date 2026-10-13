@@ -2,6 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
+    private static int[] parent;
+    private static int[] rank;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw= new BufferedWriter(new OutputStreamWriter(System.out));
@@ -17,7 +20,10 @@ public class Solution {
             int E= Integer.parseInt(st.nextToken());
 
             parent= new int[V+1];
+            rank= new int[V+1];
+
             PriorityQueue<int[]> pq= new PriorityQueue<>(Comparator.comparingInt(o -> o[2]));
+
             for (int i = 1; i <= V; i++) parent[i]=i;
 
             for (int i = 0; i < E; i++) {
@@ -48,19 +54,26 @@ public class Solution {
 
     } //end of main
 
-    private static int[] parent;
+
     private static boolean union(int v1, int v2) {
         int p1= find(v1);
         int p2= find(v2);
 
         if (p1== p2) return false;
 
-        parent[p1]= p2;
+        if (rank[p1]> rank[p2]) parent[p2]= p1;
+        else if (rank[p1] < rank[p2]) parent[p1]= p2;
+        else {
+            parent[p1]= p2;
+            rank[p2] ++;
+        }
         return true;
     }
 
     private static int find(int v) {
         if (parent[v]== v) return v;
+
+        // v가 루트 아니면 v의 부모의 부모를 v의 부모로 - 경로압축
         return parent[v]= find(parent[v]);
     }
 
