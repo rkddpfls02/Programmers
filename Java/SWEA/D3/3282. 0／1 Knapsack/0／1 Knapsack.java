@@ -41,7 +41,7 @@ public class Solution{
                     
                     // 넣을 수 있다면 안넣은 상태(i-1까지 선택 & j에서 최대 가능 무게가 i 무게만큼 적은 상태) 에서 
                     // i 가치 만큼 더한거 vs 지금꺼 안넣고도 최대 가능 무게가 j일 때 가치 중 더 큰거를 선택
-                    else if (j-v>= 0)dp[i][j]= Math.max(dp[i-1][j-v]+c, dp[i-1][j]);
+                    else dp[i][j]= Math.max(dp[i-1][j-v]+c, dp[i-1][j]);
                 }
             }
 
