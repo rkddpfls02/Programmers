@@ -1,0 +1,67 @@
+import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        int T= Integer.parseInt(br.readLine());
+        StringTokenizer st;
+        StringBuilder sb= new StringBuilder();
+
+        for(int test_case = 1; test_case <= T; test_case++) {
+            int cnt= 0;
+            int N= Integer.parseInt(br.readLine());
+            int M= Integer.parseInt(br.readLine());
+
+
+
+            int [][] dist= new int [N+1][N+1];
+
+            for (int i = 1; i <= N; i++) Arrays.fill(dist[i], Integer.MAX_VALUE);
+            for (int i = 1; i <= N; i++) dist[i][i]= 0;
+
+            for (int i = 0; i < M; i++) {
+                st= new StringTokenizer(br.readLine());
+                dist[Integer.parseInt(st.nextToken())][Integer.parseInt(st.nextToken())]= 0;
+            }
+
+            for (int k=1 ; k<= N; k++){
+                for (int i = 1; i <= N; i++) {
+                    if (dist[i][k]== Integer.MAX_VALUE) continue;
+                    for (int j = 1; j <= N; j++) {
+                        if (dist[k][j]== Integer.MAX_VALUE) continue;
+                        dist[i][j]=0;
+                    }
+                }
+            }
+
+            for (int i = 1; i <= N; i++) {
+                boolean complete= true;
+                for (int j = 1; j <= N; j++) {
+                    if (dist[i][j]== Integer.MAX_VALUE && dist[j][i]== Integer.MAX_VALUE) {
+                        complete= false;
+                        break;
+                    }
+                }
+
+                if(complete) cnt ++;
+            }
+
+
+            sb.append("#").append(test_case).append(" ").append(cnt).append("\n");
+
+
+        } // end of testcases
+
+        bw.write(sb.toString());
+        bw.flush();
+        bw.close();
+        br.close();
+
+    } // end of main
+}// end of class
+
