@@ -1,23 +1,28 @@
 import java.util.*;
+
 class Solution {
     public int solution(int[] people, int limit) {
-        
+        int cnt= 0;
         Arrays.sort(people);
-        int answer = 0;
         int n= people.length;
+        int minidx= 0;
+        boolean[] ride= new boolean[n];
 
-        int left=0;
-        int right= n-1;
         
-        while(left<= right){
+         for(int i= n-1; i>=0 ; i--){
+            if(i< minidx) break;
+            int left= limit- people[i];
+            ride[i]= true;
+            cnt++;
             
-            if(people[left]+people[right]<= limit) { 
-                left++;   
-            }
-            answer ++;
-            right--;
+             
+            // 안 탄 젤 작은 사람 탈 수 있나 ?
+            // 탈수 있으면 태우고 minidx++;
+            if(people[minidx]<= left) minidx++;
+            
         }
-
-        return answer;
+        
+        // 마지막 만들어졌었을테니 +1;
+        return cnt;
     }
 }
