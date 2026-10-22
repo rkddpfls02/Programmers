@@ -7,29 +7,21 @@ class Solution {
         
         StringBuilder sb= new StringBuilder();
         
+        int left= k;
+        
         for(int i=0; i< nums.length; i++){
             int now= nums[i]-'0';
             
-            while(!stack.isEmpty() && stack.peekFirst()< now && k> 0) {
-                k--;
+            while(!stack.isEmpty() && stack.peekFirst()< now && left> 0) {
+                left--;
                 stack.pop();
             }
-            
             stack.push(now);
         }
         
-        if(k !=0){
-            while (k !=0) {
-                stack.pop();
-                k--;
-            }
-        }
+        while(!stack.isEmpty()) sb.append(stack.pop());
         
         
-        while(!stack.isEmpty()){
-            sb.append(stack.pop());
-        }
-        
-        return sb.reverse().toString();
+        return sb.reverse().substring(0,number.length()-k);
     }
 }
