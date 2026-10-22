@@ -1,28 +1,35 @@
 import java.util.*;
-
 class Solution {
     public String solution(String number, int k) {
-        Stack<Integer> stack= new Stack<>();
-        int cnt=0;
-        int idx=0;
         
-        while(idx<number.length()){
-            int num= number.charAt(idx)-'0';
-            while(cnt<k && !stack.isEmpty() && stack.peek()< num ){
+        Deque<Integer> stack= new ArrayDeque<Integer>();
+        char[] nums= number.toCharArray();
+        
+        StringBuilder sb= new StringBuilder();
+        
+        for(int i=0; i< nums.length; i++){
+            int now= nums[i]-'0';
+            
+            while(!stack.isEmpty() && stack.peekFirst()< now && k> 0) {
+                k--;
                 stack.pop();
-                cnt ++;
             }
-            stack.add(num);
-            idx++;
+            
+            stack.push(now);
         }
         
-        if (cnt==0) return number.substring(0, number.length()-k);
+        if(k !=0){
+            while (k !=0) {
+                stack.pop();
+                k--;
+            }
+        }
         
-        String answer="";
+        
         while(!stack.isEmpty()){
-            answer = stack.pop()+ answer;
+            sb.append(stack.pop());
         }
         
-        return answer;
+        return sb.reverse().toString();
     }
 }
